@@ -47,9 +47,9 @@ class MessagesController extends Controller
     {
         $messenger_color = Auth::user()->messenger_color;
 
-        // if (!Auth::user()->channel_id) {
-        //     Chatify::createPersonalChannel();
-        // }
+        if (!Auth::user()->channel_id) {
+            Chatify::createPersonalChannel();
+        }
 
         return view('Chatify::pages.app', [
             'channel_id' => $channel_id ?? 0,
