@@ -18,8 +18,8 @@ class ChatifyServiceProvider extends PackageServiceProvider
             ])
             ->hasAssets()
             ->hasTranslations()
-            ->hasInstallCommand(InstallCommand::class)
-            ->hasCommand(PublishCommand::class)
+            // ->hasInstallCommand(InstallCommand::class)
+            // ->hasCommand(PublishCommand::class)
             ->hasViews('Chatify')
             ->hasConfigFile('chatify')
             ->hasMigrations([
