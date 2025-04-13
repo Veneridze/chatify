@@ -2,7 +2,7 @@
 
 namespace Chatify\Traits;
 
-use App\Models\ChMessage as Message;
+use Chatify\Models\ChMessage as Message;
 
 trait HasMessage
 {

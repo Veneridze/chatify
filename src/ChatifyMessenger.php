@@ -2,10 +2,10 @@
 
 namespace Chatify;
 
-use App\Models\ChMessage as Message;
-use App\Models\ChFavorite as Favorite;
-use App\Models\ChChannel as Channel;
-use App\Models\User;
+use Chatify\Models\ChMessage as Message;
+use Chatify\Models\ChFavorite as Favorite;
+use Chatify\Models\ChChannel as Channel;
+use Chatify\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

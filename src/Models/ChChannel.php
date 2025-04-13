@@ -1,8 +1,8 @@
 <?php
+namespace Chatify\Models;
 
-namespace App\Models;
 
-use App\Models\User;
+use Chatify\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Chatify\Traits\UUID;
 
