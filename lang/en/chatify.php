@@ -69,4 +69,39 @@ return [
 
     // General
     'avatar_upload_details' => 'Click to upload new avatar',
+    // Main messenger interface
+    'messages_title' => 'MESSAGES',
+    'search_placeholder' => 'Search',
+
+    // Header buttons tooltips
+    'groups_button' => 'Groups',
+    'settings_button' => 'Settings',
+    'close_button' => 'Close',
+
+    // User tab sections
+    'favorites_title' => 'Favorites',
+    'your_space_title' => 'Your Space',
+    'all_messages_title' => 'All Messages',
+
+    // Search tab
+    'search_title' => 'Search',
+    'search_hint' => 'Type to search..',
+
+    // Messaging area
+    'back_button' => 'Back',
+    'add_to_favorites' => 'Add to favorites',
+    'home_button' => 'Home',
+    'info_button' => 'Info',
+
+    // Connection status
+    'connected' => 'Connected',
+    'connecting' => 'Connecting...',
+    'no_internet' => 'No internet access',
+
+    // Messaging hints
+    'select_chat_hint' => 'Please select a chat to start messaging',
+    'typing_indicator' => 'is typing...',
+
+    // Info side
+    'info_close_button' => 'Close',
 ];
