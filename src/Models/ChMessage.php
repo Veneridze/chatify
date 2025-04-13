@@ -10,7 +10,9 @@ use Chatify\MessageCollection;
 class ChMessage extends Model
 {
     use UUID;
-
+    protected $casts = [
+        'seen' => 'array'
+    ];
     /**
      * Get the user who sent the message.
      *
@@ -18,7 +20,8 @@ class ChMessage extends Model
      */
     public function from()
     {
-        return $this->belongsTo(User::class, 'from_id');
+        $usr_model = config('chatify.user_model');
+        return $this->belongsTo($usr_model::class, 'from_id');
     }
 
     /**
@@ -28,7 +31,8 @@ class ChMessage extends Model
      */
     public function to()
     {
-        return $this->belongsTo(User::class, 'to_id');
+        $usr_model = config('chatify.user_model');
+        return $this->belongsTo($usr_model::class, 'to_id');
     }
 
     /**

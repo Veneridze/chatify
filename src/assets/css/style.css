@@ -6,6 +6,35 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+.message-card-wrapper {
+  margin: 2px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  width: calc(100% - 30px);
+}
+.message-card-wrapper.mc-sender {
+  text-align: right;
+}
+.message-card-wrapper .message-user{
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.message-card-wrapper.mc-sender .message-user {
+  justify-content: end;
+  flex-direction: row-reverse;
+}
+.message-card-wrapper .message-user img{
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+}
+
 :root {
   /*
     * --------------------------------------------------
@@ -451,9 +480,6 @@ body {
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
-  width: 100%;
-  margin: 2px 15px;
-  width: calc(100% - 30px); /* 30px = 15px padding left + right */
   justify-content: flex-start;
 }
 .message-card .message-card-content {

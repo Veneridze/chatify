@@ -18,6 +18,35 @@
     background: var(--secondary-bg-color);
     color: #333;
 }
+
+
+/*
+***********************************************
+* Form Control
+***********************************************
+*/
+.form-input[type="text"]{
+    background: var(--secondary-bg-color);
+    color: #333;
+}
+
+/*
+*****************************************
+* Modal Group Channel
+*****************************************
+*/
+.user-list-item:hover {
+    background: var(--secondary-bg-color);
+}
+.user-list-item td p {
+    color: #3c3c3c;
+}
+.user-list-item td span {
+    color: #929292;
+}
+.user-list-item:hover .activeStatus {
+    border-color: var(--secondary-bg-color);
+}
 .messenger-listView {
     background: var(--primary-bg-color);
     border: 1px solid var(--border-color);

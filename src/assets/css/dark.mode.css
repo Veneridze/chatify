@@ -13,6 +13,38 @@
 .messenger {
   background: var(--dark-primary-bg-color);
 }
+
+/*
+***********************************************
+* Form Control
+***********************************************
+*/
+.form-input{
+  background: var(--dark-primary-bg-color);
+}
+.form-input[type="text"]{
+  background: var(--dark-secondary-bg-color);
+  color: #fff;
+}
+.form-input[type="text"]::placeholder {
+  color: #fff;
+}
+
+/*
+*****************************************
+* Modal Group Channel
+*****************************************
+*/
+.user-list-item:hover {
+  background: var(--dark-secondary-bg-color);
+}
+.user-list-item td p {
+  color: #fff;
+}
+.user-list-item:hover .activeStatus {
+  border-color: var(--dark-secondary-bg-color);
+}
+
 .messenger-search[type="text"] {
   background: var(--dark-secondary-bg-color);
   color: #fff;
