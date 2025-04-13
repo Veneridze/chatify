@@ -2,74 +2,77 @@
 
 use Illuminate\Support\Facades\Route;
 
-/**
- * Authentication for pusher private channels
- */
-Route::post('/chat/auth', 'MessagesController@pusherAuth')->name('api.pusher.auth');
 
-/**
- *  Fetch info for specific id [user/group]
- */
-Route::post('/idInfo', 'MessagesController@idFetchData')->name('api.idInfo');
+Route::prefix(config('chatify.api_routes.prefix'))->middleware(config('chatify.api_routes.middleware'))->group(function () {
+    /**
+     * Authentication for pusher private channels
+     */
+    Route::post('/chat/auth', 'MessagesController@pusherAuth')->name('api.pusher.auth');
 
-/**
- * Send message route
- */
-Route::post('/sendMessage', 'MessagesController@send')->name('api.send.message');
+    /**
+     *  Fetch info for specific id [user/group]
+     */
+    Route::post('/idInfo', 'MessagesController@idFetchData')->name('api.idInfo');
 
-/**
- * Fetch messages
- */
-Route::post('/fetchMessages', 'MessagesController@fetch')->name('api.fetch.messages');
+    /**
+     * Send message route
+     */
+    Route::post('/sendMessage', 'MessagesController@send')->name('api.send.message');
 
-/**
- * Download attachments route to create a downloadable links
- */
-Route::get('/download/{fileName}', 'MessagesController@download')->name('api.'.config('chatify.attachments.download_route_name'));
+    /**
+     * Fetch messages
+     */
+    Route::post('/fetchMessages', 'MessagesController@fetch')->name('api.fetch.messages');
 
-/**
- * Make messages as seen
- */
-Route::post('/makeSeen', 'MessagesController@seen')->name('api.messages.seen');
+    /**
+     * Download attachments route to create a downloadable links
+     */
+    Route::get('/download/{fileName}', 'MessagesController@download')->name('api.' . config('chatify.attachments.download_route_name'));
 
-/**
- * Get contacts
- */
-Route::get('/getContacts', 'MessagesController@getContacts')->name('api.contacts.get');
+    /**
+     * Make messages as seen
+     */
+    Route::post('/makeSeen', 'MessagesController@seen')->name('api.messages.seen');
 
-/**
- * Star in favorite list
- */
-Route::post('/star', 'MessagesController@favorite')->name('api.star');
+    /**
+     * Get contacts
+     */
+    Route::get('/getContacts', 'MessagesController@getContacts')->name('api.contacts.get');
 
-/**
- * get favorites list
- */
-Route::post('/favorites', 'MessagesController@getFavorites')->name('api.favorites');
+    /**
+     * Star in favorite list
+     */
+    Route::post('/star', 'MessagesController@favorite')->name('api.star');
 
-/**
- * Search in messenger
- */
-Route::get('/search', 'MessagesController@search')->name('api.search');
+    /**
+     * get favorites list
+     */
+    Route::post('/favorites', 'MessagesController@getFavorites')->name('api.favorites');
 
-/**
- * Get shared photos
- */
-Route::post('/shared', 'MessagesController@sharedPhotos')->name('api.shared');
+    /**
+     * Search in messenger
+     */
+    Route::get('/search', 'MessagesController@search')->name('api.search');
 
-/**
- * Delete Conversation
- */
-Route::post('/deleteConversation', 'MessagesController@deleteConversation')->name('api.conversation.delete');
+    /**
+     * Get shared photos
+     */
+    Route::post('/shared', 'MessagesController@sharedPhotos')->name('api.shared');
 
-/**
- * Delete Conversation
- */
-Route::post('/updateSettings', 'MessagesController@updateSettings')->name('api.avatar.update');
+    /**
+     * Delete Conversation
+     */
+    Route::post('/deleteConversation', 'MessagesController@deleteConversation')->name('api.conversation.delete');
 
-/**
- * Set active status
- */
-Route::post('/setActiveStatus', 'MessagesController@setActiveStatus')->name('api.activeStatus.set');
+    /**
+     * Delete Conversation
+     */
+    Route::post('/updateSettings', 'MessagesController@updateSettings')->name('api.avatar.update');
+
+    /**
+     * Set active status
+     */
+    Route::post('/setActiveStatus', 'MessagesController@setActiveStatus')->name('api.activeStatus.set');
 
 
+});
