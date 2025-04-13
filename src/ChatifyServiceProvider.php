@@ -1,6 +1,7 @@
 <?php
 namespace Chatify;
 
+use Chatify\Console\PublishCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
@@ -17,6 +18,8 @@ class ChatifyServiceProvider extends PackageServiceProvider
             ])
             ->hasAssets()
             ->hasTranslations()
+            ->hasInstallCommand(InstallCommand::class)
+            ->hasCommand(PublishCommand::class)
             ->hasViews('Chatify')
             ->hasConfigFile('chatify')
             ->hasMigrations([
