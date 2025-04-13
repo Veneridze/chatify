@@ -10,8 +10,8 @@
             </td>
             {{-- center side --}}
             <td>
-                <p>Saved Messages <span>You</span></p>
-                <span>Save messages secretly</span>
+                <p>@lang('chatify.saved_messages') <span>@lang('chatify.saved_messages_owner')</span></p>
+                <span>@lang('chatify.saved_messages_description')</span>
             </td>
         </tr>
     </table>
@@ -25,37 +25,27 @@
         ?>
     <table class="messenger-list-item contact-item" data-channel="{{ $channel->id }}">
         <tr data-action="0">
-            {{-- Avatar side --}}
             <td style="position: relative">
                 @if($user->active_status)
-                    <span class="activeStatus"></span>
+                    <span class="activeStatus" title="@lang('chatify.online_status')"></span>
                 @endif
-                <div class="avatar av-m" style="background-image: url('{{ $user->avatar }}');">
-                </div>
+                <div class="avatar av-m" style="background-image: url('{{ $user->avatar }}');"></div>
             </td>
-            {{-- center side --}}
             <td>
                 <p>
                     {{ strlen($user->name) > 12 ? trim(substr($user->name, 0, 12)) . '..' : $user->name }}
                     <span class="contact-item-time" data-time="{{$lastMessage->created_at}}">{{ $lastMessage->timeAgo }}</span>
                 </p>
                 <span>
-                    {{-- Last Message user indicator --}}
-                    {!!
-            $lastMessage->from_id == Auth::user()->id
-            ? '<span class="lastMessageIndicator">You :</span>'
-            : ''
-                    !!}
-                    {{-- Last message body --}}
+                    {!! $lastMessage->from_id == Auth::user()->id
+            ? '<span class="lastMessageIndicator">' . __('chatify.you_indicator') . '</span>'
+            : '' !!}
                     @if($lastMessage->attachment == null)
-                            {!!
-                        $lastMessageBody
-                                    !!}
+                        {!! $lastMessageBody !!}
                     @else
-                        <span class="fas fa-file"></span> Attachment
+                        <span class="fas fa-file"></span> @lang('chatify.attachment_indicator')
                     @endif
                 </span>
-                {{-- New messages counter --}}
                 {!! $unseenCounter > 0 ? "<b>" . $unseenCounter . "</b>" : '' !!}
             </td>
         </tr>
@@ -82,19 +72,15 @@
                     <span class="contact-item-time" data-time="{{$lastMessage->created_at}}">{{ $lastMessage->timeAgo }}</span>
                 </p>
                 <span>
-                    {{-- Last Message user indicator --}}
-                    {!!
-            $lastMessage->from_id == Auth::user()->id
-            ? '<span class="lastMessageIndicator">You :</span>'
-            : '<span class="lastMessageIndicator">' . $lastMessage->user_name . ' :</span>'
-                        !!}
-                    {{-- Last message body --}}
+                    {!! $lastMessage->from_id == Auth::user()->id
+            ? '<span class="lastMessageIndicator">' . __('chatify.you_indicator') . '</span>'
+            : '<span class="lastMessageIndicator">' . $lastMessage->user_name . __('chatify.group_message_indicator') . '</span>' !!}
                     @if($lastMessage->attachment == null)
                             {!!
                         $lastMessageBody
                                             !!}
                     @else
-                        <span class="fas fa-file"></span> Attachment
+                        <span class="fas fa-file"></span> @lang('chatify.attachment_indicator')
                     @endif
                 </span>
                 {{-- New messages counter --}}
@@ -140,5 +126,5 @@
 
 {{-- -------------------- Shared photos Item -------------------- --}}
 @if($get == 'sharedPhoto')
-    <div class="shared-photo chat-image" style="background-image: url('{{ $image }}')"></div>
+    <div class="shared-photo chat-image" style="background-image: url('{{ $image }}')" title="@lang('chatify.shared_photos_title')"></div>
 @endif

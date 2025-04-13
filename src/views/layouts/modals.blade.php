@@ -5,35 +5,34 @@
             <form id="addGroupForm" action="{{ route('group-chat.create') }}" enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="app-modal-header">
-                    Create a Group Channel
+                    @lang('modals.create_group_title')
                 </div>
                 <div class="app-modal-body">
                     {{-- channel avatar --}}
                     <div class="avatar av-l upload-avatar-preview chatify-d-flex" style="background-image: url('{{ Chatify::getUserWithAvatar(Auth::user())->avatar }}');"></div>
-                    <p class="upload-avatar-details"></p>
+                    <p class="upload-avatar-details">@lang('modals.avatar_upload_details')</p>
                     <label class="app-btn a-btn-primary update" style="background-color:{{$messengerColor}}">
-                        Upload New
+                        @lang('modals.upload_avatar_label')
                         <input class="upload-avatar chatify-d-none" accept="image/*" name="avatar" type="file" />
                     </label>
-                    {{-- End channel avatar --}}
 
                     <div class="form-control">
-                        <label class="form-label" for="group_name">Group Name</label>
-                        <input class="form-input" type="text" name="group_name" id="group_name" placeholder="Enter a name" required="required" />
+                        <label class="form-label" for="group_name">@lang('modals.group_name_label')</label>
+                        <input class="form-input" type="text" name="group_name" id="group_name" placeholder="@lang('modals.group_name_placeholder')" required />
                     </div>
                     <div class="form-control">
-                        <label class="form-label" for="search">Select user(s) to the group</label>
-                        <input class="form-input user-search" type="text" name="search" placeholder="Search" />
+                        <label class="form-label" for="search">@lang('modals.select_users_label')</label>
+                        <input class="form-input user-search" type="text" name="search" placeholder="@lang('modals.search_users_placeholder')" />
                     </div>
                     <div class="search-records app-scroll users-list"></div>
                     <div style="margin-top: 1rem; margin-bottom: 2rem">
-                        <label class="form-label">Added Users</label>
+                        <label class="form-label">@lang('modals.added_users_label')</label>
                         <div class="added-users app-scroll users-list"></div>
                     </div>
                 </div>
                 <div class="app-modal-footer">
-                    <a href="javascript:void(0)" class="app-btn cancel">Cancel</a>
-                    <input type="submit" class="app-btn a-btn-success update" value="Save Changes" />
+                    <a href="javascript:void(0)" class="app-btn cancel">@lang('modals.cancel_button')</a>
+                    <input type="submit" class="app-btn a-btn-success update" value="@lang('modals.save_changes_button')" />
                 </div>
             </form>
         </div>
@@ -44,11 +43,11 @@
 <div class="app-modal" data-name="delete-group">
     <div class="app-modal-container">
         <div class="app-modal-card" data-name="delete-group" data-modal='0'>
-            <div class="app-modal-header">Are you sure you want to delete this group?</div>
-            <div class="app-modal-body">You can not undo this action</div>
+            <div class="app-modal-header">@lang('modals.delete_group_title')</div>
+            <div class="app-modal-body">@lang('modals.delete_group_warning')</div>
             <div class="app-modal-footer">
-                <a href="javascript:void(0)" class="app-btn cancel">Cancel</a>
-                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">Delete</a>
+                <a href="javascript:void(0)" class="app-btn cancel">@lang('modals.cancel_button')</a>
+                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">@lang('modals.delete_button')</a>
             </div>
         </div>
     </div>
@@ -58,11 +57,11 @@
 <div class="app-modal" data-name="leave-group">
     <div class="app-modal-container">
         <div class="app-modal-card" data-name="leave-group" data-modal='0'>
-            <div class="app-modal-header">Are you sure you want to leave this group?</div>
-            <div class="app-modal-body">You can not undo this action</div>
+            <div class="app-modal-header">@lang('modals.leave_group_title')</div>
+            <div class="app-modal-body">@lang('modals.leave_group_warning')</div>
             <div class="app-modal-footer">
-                <a href="javascript:void(0)" class="app-btn cancel">Cancel</a>
-                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">Leave</a>
+                <a href="javascript:void(0)" class="app-btn cancel">@lang('modals.cancel_button')</a>
+                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">@lang('modals.leave_button')</a>
             </div>
         </div>
     </div>
@@ -70,7 +69,7 @@
 
 {{-- ---------------------- Image modal box ---------------------- --}}
 <div id="imageModalBox" class="imageModal">
-    <span class="imageModal-close">&times;</span>
+    <span class="imageModal-close" title="@lang('modals.image_modal_close')">&times;</span>
     <img class="imageModal-content" id="imageModalBoxSrc">
 </div>
 
@@ -78,49 +77,36 @@
 <div class="app-modal" data-name="delete">
     <div class="app-modal-container">
         <div class="app-modal-card" data-name="delete" data-modal='0'>
-            <div class="app-modal-header">Are you sure you want to delete this?</div>
-            <div class="app-modal-body">You can not undo this action</div>
+            <div class="app-modal-header">@lang('modals.delete_title')</div>
+            <div class="app-modal-body">@lang('modals.delete_warning')</div>
             <div class="app-modal-footer">
-                <a href="javascript:void(0)" class="app-btn cancel">Cancel</a>
-                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">Delete</a>
+                <a href="javascript:void(0)" class="app-btn cancel">@lang('modals.cancel_button')</a>
+                <a href="javascript:void(0)" class="app-btn a-btn-danger delete">@lang('modals.delete_button')</a>
             </div>
         </div>
     </div>
 </div>
-{{-- ---------------------- Alert Modal ---------------------- --}}
-<div class="app-modal" data-name="alert">
-    <div class="app-modal-container">
-        <div class="app-modal-card" data-name="alert" data-modal='0'>
-            <div class="app-modal-header"></div>
-            <div class="app-modal-body"></div>
-            <div class="app-modal-footer">
-                <a href="javascript:void(0)" class="app-btn cancel">Cancel</a>
-            </div>
-        </div>
-    </div>
-</div>
+
 {{-- ---------------------- Settings Modal ---------------------- --}}
 <div class="app-modal" data-name="settings">
     <div class="app-modal-container">
         <div class="app-modal-card" data-name="settings" data-modal='0'>
             <form id="update-settings" action="{{ route('avatar.update') }}" enctype="multipart/form-data" method="POST">
                 @csrf
-                {{-- <div class="app-modal-header">Update your profile settings</div> --}}
                 <div class="app-modal-body">
-                    {{-- Udate profile avatar --}}
                     <div class="avatar av-l upload-avatar-preview chatify-d-flex" style="background-image: url('{{ Chatify::getUserWithAvatar(Auth::user())->avatar }}');"></div>
-                    <p class="upload-avatar-details"></p>
+                    <p class="upload-avatar-details">@lang('modals.avatar_upload_details')</p>
                     <label class="app-btn a-btn-primary update" style="background-color:{{$messengerColor}}">
-                        Upload New
+                        @lang('modals.upload_avatar_label')
                         <input class="upload-avatar chatify-d-none" accept="image/*" name="avatar" type="file" />
                     </label>
-                    {{-- Dark/Light Mode --}}
+
                     <p class="divider"></p>
-                    <p class="app-modal-header">Dark Mode <span class="
-                        {{ Auth::user()->dark_mode > 0 ? 'fas' : 'far' }} fa-moon dark-mode-switch" data-mode="{{ Auth::user()->dark_mode > 0 ? 1 : 0 }}"></span></p>
-                    {{-- change messenger color --}}
+                    <p class="app-modal-header">@lang('modals.dark_mode_label')
+                        <span class="{{ Auth::user()->dark_mode > 0 ? 'fas' : 'far' }} fa-moon dark-mode-switch" data-mode="{{ Auth::user()->dark_mode > 0 ? 1 : 0 }}"></span>
+                    </p>
+
                     <p class="divider"></p>
-                    {{-- <p class="app-modal-header">Change {{ config('chatify.name') }} Color</p> --}}
                     <div class="update-messengerColor">
                         @foreach (config('chatify.colors') as $color)
                             <span style="background-color: {{ $color}}" data-color="{{$color}}" class="color-btn"></span>
@@ -131,8 +117,8 @@
                     </div>
                 </div>
                 <div class="app-modal-footer">
-                    <a href="javascript:void(0)" class="app-btn cancel">Cancel</a>
-                    <input type="submit" class="app-btn a-btn-success update" value="Save Changes" />
+                    <a href="javascript:void(0)" class="app-btn cancel">@lang('modals.cancel_button')</a>
+                    <input type="submit" class="app-btn a-btn-success update" value="@lang('modals.save_changes_button')" />
                 </div>
             </form>
         </div>
