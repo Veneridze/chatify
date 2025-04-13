@@ -17,6 +17,6 @@ class ChChannel extends Model
     public function users()
     {
         $usr_model = config('chatify.user_model');
-        return $this->belongsToMany($usr_model::class, 'ch_channel_user', 'channel_id', 'user_id');
+        return $this->belongsToMany($usr_model, 'ch_channel_user', 'channel_id', 'user_id');
     }
 }
