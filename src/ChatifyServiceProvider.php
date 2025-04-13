@@ -23,18 +23,15 @@ class ChatifyServiceProvider extends PackageServiceProvider
             ->hasViews('Chatify')
             ->hasConfigFile('chatify')
             ->hasMigrations([
-                'add_active_status_to_users',
-                'add_avatar_to_users',
-                'add_dark_mode_to_users',
-                'add_messenger_color_to_users',
+                'create_chatify_channels_table',
                 'create_chatify_favorites_table',
                 'create_chatify_messages_table',
                 'add_active_status_to_users',
+                'create_chatify_channel_user_table',
+                'add_channel_id_to_users',
                 'add_avatar_to_users',
                 'add_dark_mode_to_users',
                 'add_messenger_color_to_users',
-                'create_chatify_favorites_table',
-                'create_chatify_messages_table',
             ])
             ->publishesServiceProvider('SocialiteUserRelationsProvider')
             ->hasInstallCommand(function (InstallCommand $command) {
