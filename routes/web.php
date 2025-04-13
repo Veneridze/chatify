@@ -1,115 +1,74 @@
 <?php
 
+use Chatify\Http\Controllers\Api\MessagesController;
 use Illuminate\Support\Facades\Route;
-
-/*
- * This is the main app route [Chatify Messenger]
- */
-Route::get('/', 'MessagesController@index')->name(config('chatify.routes.prefix'));
-
-/**
- *  Fetch info for specific id [user/group]
- */
-Route::post('/idInfo', 'MessagesController@idFetchData');
-
-/**
- * Send message route
- */
-Route::post('/sendMessage', 'MessagesController@send')->name('send.message');
-
-/**
- * Fetch messages
- */
-Route::post('/fetchMessages', 'MessagesController@fetch')->name('fetch.messages');
-
-/**
- * Download attachments route to create a downloadable links
- */
-Route::get('/download/{fileName}', 'MessagesController@download')->name(config('chatify.attachments.download_route_name'));
 
 /**
  * Authentication for pusher private channels
  */
-Route::post('/chat/auth', 'MessagesController@pusherAuth')->name('pusher.auth');
+Route::post('/chat/auth', [MessagesController::class, 'pusherAuth'])->name('api.pusher.auth');
+
+/**
+ *  Fetch info for specific id [user/group]
+ */
+Route::post('/idInfo', [MessagesController::class, 'idFetchData'])->name('api.idInfo');
+
+/**
+ * Send message route
+ */
+Route::post('/sendMessage', [MessagesController::class, 'send'])->name('api.send.message');
+
+/**
+ * Fetch messages
+ */
+Route::post('/fetchMessages', [MessagesController::class, 'fetch'])->name('api.fetch.messages');
+
+/**
+ * Download attachments route to create a downloadable links
+ */
+Route::get('/download/{fileName}', [MessagesController::class, 'download'])->name('api.' . config('chatify.attachments.download_route_name'));
 
 /**
  * Make messages as seen
  */
-Route::post('/makeSeen', 'MessagesController@seen')->name('messages.seen');
+Route::post('/makeSeen', [MessagesController::class, 'seen'])->name('api.messages.seen');
 
 /**
- * Get contacts / list of channels
+ * Get contacts
  */
-Route::get('/getContacts', 'MessagesController@getContacts')->name('contacts.get');
-
-/**
- * Update contact item data
- */
-Route::post('/updateContacts', 'MessagesController@updateContactItem')->name('contacts.update');
-
-/**
- * Get channel_id by user_id
- */
-Route::post('/get-channel-id', 'MessagesController@getChannelId')->name('get-channel-id');
+Route::get('/getContacts', [MessagesController::class, 'getContacts'])->name('api.contacts.get');
 
 /**
  * Star in favorite list
  */
-Route::post('/star', 'MessagesController@favorite')->name('star');
+Route::post('/star', [MessagesController::class, 'favorite'])->name('api.star');
 
 /**
  * get favorites list
  */
-Route::post('/favorites', 'MessagesController@getFavorites')->name('favorites');
+Route::post('/favorites', [MessagesController::class, 'getFavorites'])->name('api.favorites');
 
 /**
  * Search in messenger
  */
-Route::get('/search', 'MessagesController@search')->name('search');
+Route::get('/search', [MessagesController::class, 'search'])->name('api.search');
 
 /**
  * Get shared photos
  */
-Route::post('/shared', 'MessagesController@sharedPhotos')->name('shared');
+Route::post('/shared', [MessagesController::class, 'sharedPhotos'])->name('api.shared');
 
 /**
  * Delete Conversation
  */
-Route::post('/deleteConversation', 'MessagesController@deleteConversation')->name('conversation.delete');
+Route::post('/deleteConversation', [MessagesController::class, 'deleteConversation'])->name('api.conversation.delete');
 
 /**
- * Delete Message
+ * Update settings
  */
-Route::post('/deleteMessage', 'MessagesController@deleteMessage')->name('message.delete');
-
-/**
- * Update setting
- */
-Route::post('/updateSettings', 'MessagesController@updateSettings')->name('avatar.update');
+Route::post('/updateSettings', [MessagesController::class, 'updateSettings'])->name('api.avatar.update');
 
 /**
  * Set active status
  */
-Route::post('/setActiveStatus', 'MessagesController@setActiveStatus')->name('activeStatus.set');
-
-/**
- * Search users for group modal
- */
-Route::get('/search-users', 'MessagesController@searchUsers')->name('group.search.users');
-
-/**
- * Group Chat
- */
-Route::name('group-chat.')->prefix('group-chat')->group(function () {
-    Route::post('/create', 'MessagesController@createGroupChat')->name('create');
-    Route::post('/delete', 'MessagesController@deleteGroupChat')->name('delete');
-    Route::post('/leave', 'MessagesController@leaveGroupChat')->name('delete');
-});
-
-
-
-
-/**
- * Channel id
- */
-Route::get('/{channel_id}', 'MessagesController@index')->name('channel_id');
+Route::post('/setActiveStatus', [MessagesController::class, 'setActiveStatus'])->name('api.activeStatus.set');
