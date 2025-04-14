@@ -11,9 +11,9 @@ return [
     'shared_photos_title' => 'Общие фотографии',
 
     // Saved Messages section
-    'saved_messages' => 'Сохраненные сообщения',
+    'saved_messages' => 'Избранное',
     'saved_messages_owner' => 'Вы',
-    'saved_messages_description' => 'Сохраняйте сообщения',
+    'saved_messages_description' => 'Сохраненные сообщения',
 
     // Contact and Chat items
     'attachment_indicator' => 'Вложение',

@@ -270,7 +270,7 @@ class MessagesController extends Controller
             ->join('ch_channel_user', 'ch_channels.id', '=', 'ch_channel_user.channel_id')
             ->where('ch_channel_user.user_id', '=', Auth::id())
             ->select('ch_channels.*', DB::raw('ch_messages.created_at messaged_at'))
-            ->groupBy('ch_channels.id')
+            // ->groupBy('ch_channels.id')
             ->orderBy('messaged_at', 'desc')
             ->paginate($request->per_page ?? $this->perPage);
 

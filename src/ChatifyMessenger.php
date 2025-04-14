@@ -147,9 +147,9 @@ class ChatifyMessenger
         } else {
             $msg = Message::where('id', $id)
                 ->join('users', 'ch_messages.from_id', 'users.id')
-                ->with('user')
+                ->with(['from', 'to'])
                 // load user info
-                // ->select('ch_messages.*', 'users.name as user_name', 'users.email as user_email', 'users.avatar as user_avatar')
+                ->select('ch_messages.*', 'users.firstname as user_name', 'users.email as user_email', 'users.avatar as user_avatar')
                 ->first();
             if (!$msg) {
                 return [];
@@ -215,8 +215,9 @@ class ChatifyMessenger
     {
         return Message::where('to_channel_id', $channel_id)
             ->join('users', 'ch_messages.from_id', 'users.id')
+            ->with(['from', 'to'])
             // load user info
-            ->select('ch_messages.*', 'users.name as user_name', 'users.email as user_email', 'users.id as user_id', 'users.avatar as user_avatar');
+            ->select('ch_messages.*', 'users.firstname as user_name', 'users.email as user_email', 'users.id as user_id', 'users.avatar as user_avatar');
     }
 
     /**
@@ -432,10 +433,11 @@ class ChatifyMessenger
      */
     public function getUserInOneChannel(string $channel_id)
     {
+        $usr_model = config('chatify.user_model');
         if ($channel_id == Auth::user()->channel_id)
             return Auth::user();
 
-        return User::where('id', '!=', Auth::id())
+        return $usr_model::where('id', '!=', Auth::id())
             ->join('ch_channel_user', 'users.id', '=', 'ch_channel_user.user_id')
             ->where('ch_channel_user.channel_id', $channel_id)
             ->select('users.*')
