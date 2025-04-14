@@ -10,8 +10,8 @@
             </td>
             {{-- center side --}}
             <td>
-                <p>@lang('chatify.saved_messages') <span>@lang('chatify.saved_messages_owner')</span></p>
-                <span>@lang('chatify.saved_messages_description')</span>
+                <p>@lang('chatify::chatify.saved_messages') <span>@lang('chatify::chatify.saved_messages_owner')</span></p>
+                <span>@lang('chatify::chatify.saved_messages_description')</span>
             </td>
         </tr>
     </table>
@@ -27,7 +27,7 @@
         <tr data-action="0">
             <td style="position: relative">
                 @if($user->active_status)
-                    <span class="activeStatus" title="@lang('chatify.online_status')"></span>
+                    <span class="activeStatus" title="@lang('chatify::chatify.online_status')"></span>
                 @endif
                 <div class="avatar av-m" style="background-image: url('{{ $user->avatar }}');"></div>
             </td>
@@ -38,12 +38,12 @@
                 </p>
                 <span>
                     {!! $lastMessage->from_id == Auth::user()->id
-            ? '<span class="lastMessageIndicator">' . __('chatify.you_indicator') . '</span>'
+            ? '<span class="lastMessageIndicator">' . __('chatify::chatify.you_indicator') . '</span>'
             : '' !!}
                     @if($lastMessage->attachment == null)
                         {!! $lastMessageBody !!}
                     @else
-                        <span class="fas fa-file"></span> @lang('chatify.attachment_indicator')
+                        <span class="fas fa-file"></span> @lang('chatify::chatify.attachment_indicator')
                     @endif
                 </span>
                 {!! $unseenCounter > 0 ? "<b>" . $unseenCounter . "</b>" : '' !!}
@@ -73,14 +73,14 @@
                 </p>
                 <span>
                     {!! $lastMessage->from_id == Auth::user()->id
-            ? '<span class="lastMessageIndicator">' . __('chatify.you_indicator') . '</span>'
-            : '<span class="lastMessageIndicator">' . $lastMessage->user_name . __('chatify.group_message_indicator') . '</span>' !!}
+            ? '<span class="lastMessageIndicator">' . __('chatify::chatify.you_indicator') . '</span>'
+            : '<span class="lastMessageIndicator">' . $lastMessage->user_name . __('chatify::chatify.group_message_indicator') . '</span>' !!}
                     @if($lastMessage->attachment == null)
                             {!!
                         $lastMessageBody
                                             !!}
                     @else
-                        <span class="fas fa-file"></span> @lang('chatify.attachment_indicator')
+                        <span class="fas fa-file"></span> @lang('chatify::chatify.attachment_indicator')
                     @endif
                 </span>
                 {{-- New messages counter --}}
@@ -118,7 +118,7 @@
             </td>
             {{-- center side --}}
             <td>
-                <p>{{ strlen($user->name) > 12 ? trim(substr($user->name, 0, 12)) . '..' : $user->name }}</p>
+                <p>{{ strlen($user->name) > 12 ? trim(substr($user->name, 0, 12)) . __('chatify::chatify.name_truncated') : $user->name }}</p>
             </td>
         </tr>
     </table>
@@ -126,5 +126,5 @@
 
 {{-- -------------------- Shared photos Item -------------------- --}}
 @if($get == 'sharedPhoto')
-    <div class="shared-photo chat-image" style="background-image: url('{{ $image }}')" title="@lang('chatify.shared_photos_title')"></div>
+    <div class="shared-photo chat-image" style="background-image: url('{{ $image }}')" title="@lang('chatify::chatify.shared_photos_title')"></div>
 @endif

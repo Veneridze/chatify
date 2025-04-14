@@ -11,7 +11,7 @@ $isGroup = isset($channel->owner_id);
 @if($isGroup)
     <div style="max-width: 250px; margin: auto">
         <h4 style="text-align: center; margin-bottom: 10px; margin-top: 30px; font-weight: normal; font-size: 14px">
-            {{ __('chatify.users_in_group') }}
+            {{ __('chatify::chatify.users_in_group') }}
         </h4>
         <div class="app-scroll users-list">
             @foreach($channel->users as $user)
@@ -23,16 +23,16 @@ $isGroup = isset($channel->owner_id);
 
 <div class="messenger-infoView-btns">
     @if($isGroup && $channel && $channel->owner_id === Auth::user()->id)
-        <a href="#" class="danger delete-group">{{ __('chatify.delete_group_button') }}</a>
+        <a href="#" class="danger delete-group">{{ __('chatify::chatify.delete_group_button') }}</a>
     @elseif($isGroup)
-        <a href="#" class="danger leave-group">{{ __('chatify.leave_group_button') }}</a>
+        <a href="#" class="danger leave-group">{{ __('chatify::chatify.leave_group_button') }}</a>
     @else
-        <a href="#" class="danger delete-conversation">{{ __('chatify.delete_conversation_button') }}</a>
+        <a href="#" class="danger delete-conversation">{{ __('chatify::chatify.delete_conversation_button') }}</a>
     @endif
 </div>
 
 {{-- shared photos --}}
 <div class="messenger-infoView-shared">
-    <p class="messenger-title"><span>{{ __('chatify.shared_photos_title') }}</span></p>
+    <p class="messenger-title"><span>{{ __('chatify::chatify.shared_photos_title') }}</span></p>
     <div class="shared-photos-list"></div>
 </div>
