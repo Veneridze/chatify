@@ -175,7 +175,7 @@ class ChatifyMessenger
             ],
             'timeAgo' => $msg->created_at->diffForHumans(),
             'created_at' => $msg->created_at->toIso8601String(),
-            'isSender' => ($msg->from_id == Auth::user()->id),
+            'isSender' => ($msg->from_id == Auth::id()),
             'seen' => $msg->seen,
             'user' => $this->getUserWithAvatar((object) [
                 'avatar' => $msg->user_avatar,
@@ -244,7 +244,7 @@ class ChatifyMessenger
      */
     public function makeSeen($channel_id)
     {
-        $auth_id = Auth::user()->id;
+        $auth_id = Auth::id();
         $messages = Message::where('to_channel_id', $channel_id)
             ->where('from_id', '<>', $auth_id)
             ->where(function ($query) use ($auth_id) {
@@ -280,7 +280,7 @@ class ChatifyMessenger
      */
     public function countUnseenMessages(string $channel_id)
     {
-        $auth_id = Auth::user()->id;
+        $auth_id = Auth::id();
         return Message::where('to_channel_id', $channel_id)
             ->where('from_id', '<>', $auth_id)
             ->where(function ($query) use ($auth_id) {
@@ -381,7 +381,7 @@ class ChatifyMessenger
         $new_channel = new Channel();
         $new_channel->save();
 
-        $new_channel->users()->sync([Auth::user()->id]);
+        $new_channel->users()->sync([Auth::id()]);
         Auth::user()->channel_id = $new_channel->id;
         Auth::user()->save();
 
@@ -399,7 +399,7 @@ class ChatifyMessenger
         $channel_user = DB::table('ch_channel_user')
             ->join('ch_channels', 'ch_channel_user.channel_id', 'ch_channels.id')
             ->select('ch_channel_user.channel_id', DB::raw('count(ch_channel_user.user_id) as count_user'))
-            ->whereIn('ch_channel_user.user_id', [$user_id, Auth::user()->id])
+            ->whereIn('ch_channel_user.user_id', [$user_id, Auth::id()])
             ->whereNull('ch_channels.owner_id') // group_channel has owner_id
             ->groupBy('ch_channel_user.channel_id')
             ->having('count_user', '=', 2)
@@ -409,7 +409,7 @@ class ChatifyMessenger
             $new_channel = new Channel();
             $new_channel->save();
 
-            $new_channel->users()->sync([$user_id, Auth::user()->id]);
+            $new_channel->users()->sync([$user_id, Auth::id()]);
 
             return (object) [
                 'channel_id' => $new_channel->id,
@@ -434,7 +434,7 @@ class ChatifyMessenger
         if ($channel_id == Auth::user()->channel_id)
             return Auth::user();
 
-        return User::where('id', '!=', Auth::user()->id)
+        return User::where('id', '!=', Auth::id())
             ->join('ch_channel_user', 'users.id', '=', 'ch_channel_user.user_id')
             ->where('ch_channel_user.channel_id', $channel_id)
             ->select('users.*')
@@ -464,7 +464,7 @@ class ChatifyMessenger
      */
     public function inFavorite($channel_id)
     {
-        return Favorite::where('user_id', Auth::user()->id)
+        return Favorite::where('user_id', Auth::id())
             ->where('favorite_id', $channel_id)->count() > 0;
     }
 
@@ -480,13 +480,13 @@ class ChatifyMessenger
         if ($action > 0) {
             // Star
             $star = new Favorite();
-            $star->user_id = Auth::user()->id;
+            $star->user_id = Auth::id();
             $star->favorite_id = $channel_id;
             $star->save();
             return $star ? true : false;
         } else {
             // UnStar
-            $star = Favorite::where('user_id', Auth::user()->id)->where('favorite_id', $channel_id)->delete();
+            $star = Favorite::where('user_id', Auth::id())->where('favorite_id', $channel_id)->delete();
             return $star ? true : false;
         }
     }

@@ -79,8 +79,8 @@ class MessagesController extends Controller
                 'message' => "This chat channel doesn't exist!"
             ]);
 
-        $allow_loading = $channel->owner_id === Auth::user()->id
-            || in_array(Auth::user()->id, $channel->users()->pluck('id')->all());
+        $allow_loading = $channel->owner_id === Auth::id()
+            || in_array(Auth::id(), $channel->users()->pluck('id')->all());
         if (!$allow_loading)
             return Response::json([
                 'message' => "You haven't joined this chat channel!"
@@ -170,7 +170,7 @@ class MessagesController extends Controller
         if (!$error->status) {
             $lastMess = Message::where('to_channel_id', $request['channel_id'])->latest()->first();
             $message = Chatify::newMessage([
-                'from_id' => Auth::user()->id,
+                'from_id' => Auth::id(),
                 'to_channel_id' => $request['channel_id'],
                 'body' => htmlentities(trim($request['message']), ENT_QUOTES, 'UTF-8'),
                 'attachment' => ($attachment) ? json_encode((object) [
@@ -184,10 +184,10 @@ class MessagesController extends Controller
             $message->user_name = Auth::user()->name;
             $message->user_email = Auth::user()->email;
 
-            $messageData = Chatify::parseMessage($message, null, $lastMess ? $lastMess->from_id !== Auth::user()->id : true);
+            $messageData = Chatify::parseMessage($message, null, $lastMess ? $lastMess->from_id !== Auth::id() : true);
 
             Chatify::push("private-chatify." . $request['channel_id'], 'messaging', [
-                'from_id' => Auth::user()->id,
+                'from_id' => Auth::id(),
                 'to_channel_id' => $request['channel_id'],
                 'message' => Chatify::messageCard($messageData, true)
             ]);
@@ -268,7 +268,7 @@ class MessagesController extends Controller
     {
         $query = Channel::join('ch_messages', 'ch_channels.id', '=', 'ch_messages.to_channel_id')
             ->join('ch_channel_user', 'ch_channels.id', '=', 'ch_channel_user.channel_id')
-            ->where('ch_channel_user.user_id', '=', Auth::user()->id)
+            ->where('ch_channel_user.user_id', '=', Auth::id())
             ->select('ch_channels.*', DB::raw('ch_messages.created_at messaged_at'))
             ->groupBy('ch_channels.id')
             ->orderBy('messaged_at', 'desc')
@@ -360,7 +360,7 @@ class MessagesController extends Controller
     public function getFavorites(Request $request)
     {
         $favoritesList = null;
-        $favorites = Favorite::where('user_id', Auth::user()->id);
+        $favorites = Favorite::where('user_id', Auth::id());
         foreach ($favorites->get() as $favorite) {
             $channel = Channel::find($favorite->favorite_id);
 
@@ -396,8 +396,8 @@ class MessagesController extends Controller
         $usr_model = config('chatify.user_model');
         $getRecords = null;
         $input = trim(filter_var($request['input']));
-        $records = $usr_model::where('id', '!=', Auth::user()->id)
-            ->where('name', 'LIKE', "%{$input}%")
+        $records = $usr_model::search($input)->where('id', '!=', Auth::id())
+            // ->where('name', 'LIKE', "%{$input}%")
             ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {
             $getRecords .= view('Chatify::layouts.listItem', [
@@ -493,7 +493,7 @@ class MessagesController extends Controller
 
         // add last message
         $message = Chatify::newMessage([
-            'from_id' => Auth::user()->id,
+            'from_id' => Auth::id(),
             'to_channel_id' => $channel_id,
             'body' => Auth::user()->name . ' has left the group',
             'attachment' => null,
@@ -505,7 +505,7 @@ class MessagesController extends Controller
         $messageData = Chatify::parseMessage($message, null);
 
         Chatify::push("private-chatify." . $channel_id, 'messaging', [
-            'from_id' => Auth::user()->id,
+            'from_id' => Auth::id(),
             'to_channel_id' => $channel_id,
             'message' => Chatify::messageCard($messageData, true)
         ]);
@@ -546,14 +546,14 @@ class MessagesController extends Controller
         // dark mode
         if ($request['dark_mode']) {
             $request['dark_mode'] == "dark"
-                ? $usr_model::where('id', Auth::user()->id)->update(['dark_mode' => 1])  // Make Dark
-                : $usr_model::where('id', Auth::user()->id)->update(['dark_mode' => 0]); // Make Light
+                ? $usr_model::where('id', Auth::id())->update(['dark_mode' => 1])  // Make Dark
+                : $usr_model::where('id', Auth::id())->update(['dark_mode' => 0]); // Make Light
         }
 
         // If messenger color selected
         if ($request['messengerColor']) {
             $messenger_color = trim(filter_var($request['messengerColor']));
-            $usr_model::where('id', Auth::user()->id)
+            $usr_model::where('id', Auth::id())
                 ->update(['messenger_color' => $messenger_color]);
         }
         // if there is a [file]
@@ -574,7 +574,7 @@ class MessagesController extends Controller
                     }
                     // upload
                     $avatar = Str::uuid() . "." . $file->extension();
-                    $update = $usr_model::where('id', Auth::user()->id)->update(['avatar' => $avatar]);
+                    $update = $usr_model::where('id', Auth::id())->update(['avatar' => $avatar]);
                     $file->storeAs(config('chatify.user_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
                     $success = $update ? 1 : 0;
                 } else {
@@ -605,7 +605,7 @@ class MessagesController extends Controller
     {
         $usr_model = config('chatify.user_model');
         $activeStatus = $request['status'] > 0 ? 1 : 0;
-        $status = $usr_model::where('id', Auth::user()->id)->update(['active_status' => $activeStatus]);
+        $status = $usr_model::where('id', Auth::id())->update(['active_status' => $activeStatus]);
         return Response::json([
             'status' => $status,
         ], 200);
@@ -622,8 +622,8 @@ class MessagesController extends Controller
         $usr_model = config('chatify.user_model');
         $getRecords = array();
         $input = trim(filter_var($request['input']));
-        $records = $usr_model::where('id', '!=', Auth::user()->id)
-            ->where('name', 'LIKE', "%{$input}%")
+        $records = $usr_model::search($input)->where('id', '!=', Auth::id())
+            // ->where('name', 'LIKE', "%{$input}%")
             ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {
             $getRecords[] = array(
@@ -652,19 +652,19 @@ class MessagesController extends Controller
         $error = $success = 0;
 
         $user_ids = array_map('intval', explode(',', $request['user_ids']));
-        $user_ids[] = Auth::user()->id;
+        $user_ids[] = Auth::id();
 
         $group_name = $request['group_name'];
 
         $new_channel = new Channel();
         $new_channel->name = $group_name;
-        $new_channel->owner_id = Auth::user()->id;
+        $new_channel->owner_id = Auth::id();
         $new_channel->save();
         $new_channel->users()->sync($user_ids);
 
         // add first message
         $message = Chatify::newMessage([
-            'from_id' => Auth::user()->id,
+            'from_id' => Auth::id(),
             'to_channel_id' => $new_channel->id,
             'body' => Auth::user()->name . ' has created a new chat group: ' . $group_name,
             'attachment' => null,
@@ -674,7 +674,7 @@ class MessagesController extends Controller
 
         $messageData = Chatify::parseMessage($message, null);
         Chatify::push("private-chatify." . $new_channel->id, 'messaging', [
-            'from_id' => Auth::user()->id,
+            'from_id' => Auth::id(),
             'to_channel_id' => $new_channel->id,
             'message' => Chatify::messageCard($messageData, true)
         ]);

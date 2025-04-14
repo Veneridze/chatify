@@ -1,6 +1,6 @@
 {{-- -------------------- Saved Messages -------------------- --}}
 @if($get == 'saved')
-    <table class="messenger-list-item {{Auth::user()->channel_id ? 'contact-item' : 'search-item'}}" data-channel="{{ Auth::user()->channel_id }}" data-user="{{ Auth::user()->id }}">
+    <table class="messenger-list-item {{Auth::user()->channel_id ? 'contact-item' : 'search-item'}}" data-channel="{{ Auth::user()->channel_id }}" data-user="{{ Auth::id() }}">
         <tr data-action="0">
             {{-- Avatar side --}}
             <td>
@@ -37,7 +37,7 @@
                     <span class="contact-item-time" data-time="{{$lastMessage->created_at}}">{{ $lastMessage->timeAgo }}</span>
                 </p>
                 <span>
-                    {!! $lastMessage->from_id == Auth::user()->id
+                    {!! $lastMessage->from_id == Auth::id()
             ? '<span class="lastMessageIndicator">' . __('chatify::chatify.you_indicator') . '</span>'
             : '' !!}
                     @if($lastMessage->attachment == null)
@@ -72,7 +72,7 @@
                     <span class="contact-item-time" data-time="{{$lastMessage->created_at}}">{{ $lastMessage->timeAgo }}</span>
                 </p>
                 <span>
-                    {!! $lastMessage->from_id == Auth::user()->id
+                    {!! $lastMessage->from_id == Auth::id()
             ? '<span class="lastMessageIndicator">' . __('chatify::chatify.you_indicator') . '</span>'
             : '<span class="lastMessageIndicator">' . $lastMessage->user_name . __('chatify::chatify.group_message_indicator') . '</span>' !!}
                     @if($lastMessage->attachment == null)

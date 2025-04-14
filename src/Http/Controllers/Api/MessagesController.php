@@ -132,7 +132,7 @@ class MessagesController extends Controller
             // send to database
             $message = Chatify::newMessage([
                 'type' => $request['type'],
-                'from_id' => Auth::user()->id,
+                'from_id' => Auth::id(),
                 'to_id' => $request['id'],
                 'body' => htmlentities(trim($request['message']), ENT_QUOTES, 'UTF-8'),
                 'attachment' => ($attachment) ? json_encode((object) [
@@ -145,9 +145,9 @@ class MessagesController extends Controller
             $messageData = Chatify::parseMessage($message);
 
             // send to user using pusher
-            if (Auth::user()->id != $request['id']) {
+            if (Auth::id() != $request['id']) {
                 Chatify::push("private-chatify." . $request['id'], 'messaging', [
-                    'from_id' => Auth::user()->id,
+                    'from_id' => Auth::id(),
                     'to_id' => $request['id'],
                     'message' => $messageData
                 ]);
@@ -214,10 +214,10 @@ class MessagesController extends Controller
                 ->orOn('ch_messages.to_id', '=', 'users.id');
         })
             ->where(function ($q) {
-                $q->where('ch_messages.from_id', Auth::user()->id)
-                    ->orWhere('ch_messages.to_id', Auth::user()->id);
+                $q->where('ch_messages.from_id', Auth::id())
+                    ->orWhere('ch_messages.to_id', Auth::id());
             })
-            ->where('users.id', '!=', Auth::user()->id)
+            ->where('users.id', '!=', Auth::id())
             ->select('users.*', DB::raw('MAX(ch_messages.created_at) max_created_at'))
             ->orderBy('max_created_at', 'desc')
             ->groupBy('users.id')
@@ -258,7 +258,7 @@ class MessagesController extends Controller
     public function getFavorites(Request $request)
     {
         $usr_model = config('chatify.user_model');
-        $favorites = Favorite::where('user_id', Auth::user()->id)->get();
+        $favorites = Favorite::where('user_id', Auth::id())->get();
         foreach ($favorites as $favorite) {
             $favorite->user = $usr_model::where('id', $favorite->favorite_id)->first();
         }
@@ -278,8 +278,8 @@ class MessagesController extends Controller
     {
         $usr_model = config('chatify.user_model');
         $input = trim(filter_var($request['input']));
-        $records = $usr_model::where('id', '!=', Auth::user()->id)
-            ->where('name', 'LIKE', "%{$input}%")
+        $records = $usr_model::search($input)->where('id', '!=', Auth::id())
+            // ->where('name', 'LIKE', "%{$input}%")
             ->paginate($request->per_page ?? $this->perPage);
 
         foreach ($records->items() as $index => $record) {
@@ -338,14 +338,14 @@ class MessagesController extends Controller
         // dark mode
         if ($request['dark_mode']) {
             $request['dark_mode'] == "dark"
-                ? $usr_model::where('id', Auth::user()->id)->update(['dark_mode' => 1])  // Make Dark
-                : $usr_model::where('id', Auth::user()->id)->update(['dark_mode' => 0]); // Make Light
+                ? $usr_model::where('id', Auth::id())->update(['dark_mode' => 1])  // Make Dark
+                : $usr_model::where('id', Auth::id())->update(['dark_mode' => 0]); // Make Light
         }
 
         // If messenger color selected
         if ($request['messengerColor']) {
             $messenger_color = trim(filter_var($request['messengerColor']));
-            $usr_model::where('id', Auth::user()->id)
+            $usr_model::where('id', Auth::id())
                 ->update(['messenger_color' => $messenger_color]);
         }
         // if there is a [file]
@@ -366,7 +366,7 @@ class MessagesController extends Controller
                     }
                     // upload
                     $avatar = Str::uuid() . "." . $file->extension();
-                    $update = $usr_model::where('id', Auth::user()->id)->update(['avatar' => $avatar]);
+                    $update = $usr_model::where('id', Auth::id())->update(['avatar' => $avatar]);
                     $file->storeAs(config('chatify.user_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
                     $success = $update ? 1 : 0;
                 } else {
@@ -397,7 +397,7 @@ class MessagesController extends Controller
     {
         $usr_model = config('chatify.user_model');
         $activeStatus = $request['status'] > 0 ? 1 : 0;
-        $status = $usr_model::where('id', Auth::user()->id)->update(['active_status' => $activeStatus]);
+        $status = $usr_model::where('id', Auth::id())->update(['active_status' => $activeStatus]);
         return Response::json([
             'status' => $status,
         ], 200);

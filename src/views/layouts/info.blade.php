@@ -22,7 +22,7 @@ $isGroup = isset($channel->owner_id);
 @endif
 
 <div class="messenger-infoView-btns">
-    @if($isGroup && $channel && $channel->owner_id === Auth::user()->id)
+    @if($isGroup && $channel && $channel->owner_id === Auth::id())
         <a href="#" class="danger delete-group">{{ __('chatify::chatify.delete_group_button') }}</a>
     @elseif($isGroup)
         <a href="#" class="danger leave-group">{{ __('chatify::chatify.leave_group_button') }}</a>
