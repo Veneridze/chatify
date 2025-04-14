@@ -270,11 +270,13 @@ class MessagesController extends Controller
             ->join('ch_channel_user', 'ch_channels.id', '=', 'ch_channel_user.channel_id')
             ->where('ch_channel_user.user_id', '=', Auth::id())
             ->select('ch_channels.*', DB::raw('ch_messages.created_at messaged_at'))
-            // ->groupBy('ch_channels.id')
+            // ->uniq
+            // ->distinct()
+            // ->groupBy('ch_messages.to_channel_id')
             ->orderBy('messaged_at', 'desc')
             ->paginate($request->per_page ?? $this->perPage);
 
-        $channelsList = $query->items();
+        $channelsList = collect($query->items())->unique('id');
 
         if (count($channelsList) > 0) {
             $contacts = '';
@@ -396,7 +398,7 @@ class MessagesController extends Controller
         $usr_model = config('chatify.user_model');
         $getRecords = null;
         $input = trim(filter_var($request['input']));
-        $records = $usr_model::search($input)->where('id', '!=', Auth::id())
+        $records = $usr_model::all()//search($input)->where('id', '!=', Auth::id())
             // ->where('name', 'LIKE', "%{$input}%")
             ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {
@@ -622,7 +624,8 @@ class MessagesController extends Controller
         $usr_model = config('chatify.user_model');
         $getRecords = array();
         $input = trim(filter_var($request['input']));
-        $records = $usr_model::search($input)->where('id', '!=', Auth::id())
+        $records = $usr_model::all()
+            // search($input)->where('id', '!=', Auth::id())
             // ->where('name', 'LIKE', "%{$input}%")
             ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {

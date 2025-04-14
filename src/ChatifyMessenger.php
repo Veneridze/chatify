@@ -30,10 +30,10 @@ class ChatifyMessenger
     public function __construct()
     {
         $this->pusher = new Pusher(
-            config('chatify.pusher.key'),
-            config('chatify.pusher.secret'),
-            config('chatify.pusher.app_id'),
-            config('chatify.pusher.options'),
+            config('broadcasting.connections.reverb.key'),
+            config('broadcasting.connections.reverb.secret'),
+            config('broadcasting.connections.reverb.app_id'),
+            config('broadcasting.connections.reverb.options'),
         );
     }
     /**
