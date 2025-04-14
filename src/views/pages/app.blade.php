@@ -14,7 +14,7 @@
                 </nav>
             </nav>
             {{-- Search input --}}
-            <input type="text" class="messenger-search" placeholder="@lang('chatify::chatify.search_placeholder')" />
+            <input type="text" class="messenger-search" placeholder="@lang('Search')" />
         </div>
         {{-- tabs and lists --}}
         <div class="m-body contacts-container">

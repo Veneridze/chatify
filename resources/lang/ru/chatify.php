@@ -70,4 +70,39 @@ return [
 
     // General
     'avatar_upload_details' => 'Нажмите для загрузки аватара',
+    // Основной интерфейс мессенджера
+    'messages_title' => 'СООБЩЕНИЯ',
+    'search_placeholder' => 'Поиск',
+
+    // Подсказки кнопок шапки
+    'groups_button' => 'Группы',
+    'settings_button' => 'Настройки',
+    'close_button' => 'Закрыть',
+
+    // Разделы вкладки пользователя
+    'favorites_title' => 'Избранное',
+    'your_space_title' => 'Ваше пространство',
+    'all_messages_title' => 'Все сообщения',
+
+    // Вкладка поиска
+    'search_title' => 'Поиск',
+    'search_hint' => 'Начните вводить текст...',
+
+    // Область переписки
+    'back_button' => 'Назад',
+    'add_to_favorites' => 'В избранное',
+    'home_button' => 'Домой',
+    'info_button' => 'Инфо',
+
+    // Статус соединения
+    'connected' => 'Подключено',
+    'connecting' => 'Подключение...',
+    'no_internet' => 'Нет интернета',
+
+    // Подсказки переписки
+    'select_chat_hint' => 'Выберите чат для начала общения',
+    'typing_indicator' => 'печатает...',
+
+    // Информационная панель
+    'info_close_button' => 'Закрыть',
 ];
