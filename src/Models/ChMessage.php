@@ -32,7 +32,7 @@ class ChMessage extends Model
     public function to()
     {
         $usr_model = config('chatify.user_model');
-        return $this->belongsTo($usr_model, 'to_id');
+        return $this->belongsTo($usr_model, 'to_channel_id');
     }
 
     /**

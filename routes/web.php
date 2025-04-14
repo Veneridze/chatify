@@ -110,7 +110,7 @@ Route::controller(MessagesController::class)->prefix(config('chatify.routes.pref
     Route::name('group-chat.')->prefix('group-chat')->group(function () {
         Route::post('/create', 'createGroupChat')->name('create');
         Route::post('/delete', 'deleteGroupChat')->name('delete');
-        Route::post('/leave', 'leaveGroupChat')->name('delete');
+        Route::post('/leave', 'leaveGroupChat')->name('leave');
     });
 
 

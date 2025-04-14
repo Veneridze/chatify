@@ -13,7 +13,7 @@ trait HasMessage
      */
     public function messages()
     {
-        return $this->hasMany(Message::class, 'to_id');
+        return $this->hasMany(Message::class, 'to_channel_id');
     }
 
     /**

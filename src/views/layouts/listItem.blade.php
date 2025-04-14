@@ -90,8 +90,6 @@
     </table>
 @endif
 
-{{-- -------------------- Search Item -------------------- --}}
-@if($get == 'search_item')
     <table class="messenger-list-item search-item" data-user="{{ $user->id }}">
         <tr data-action="0">
             {{-- Avatar side --}}

@@ -133,7 +133,7 @@ class MessagesController extends Controller
             $message = Chatify::newMessage([
                 'type' => $request['type'],
                 'from_id' => Auth::id(),
-                'to_id' => $request['id'],
+                'to_channel_id' => $request['id'],
                 'body' => htmlentities(trim($request['message']), ENT_QUOTES, 'UTF-8'),
                 'attachment' => ($attachment) ? json_encode((object) [
                     'new_name' => $attachment,
@@ -148,7 +148,7 @@ class MessagesController extends Controller
             if (Auth::id() != $request['id']) {
                 Chatify::push("private-chatify." . $request['id'], 'messaging', [
                     'from_id' => Auth::id(),
-                    'to_id' => $request['id'],
+                    'to_channel_id' => $request['id'],
                     'message' => $messageData
                 ]);
             }
@@ -211,11 +211,11 @@ class MessagesController extends Controller
         // get all users that received/sent message from/to [Auth user]
         $users = Message::join('users', function ($join) {
             $join->on('ch_messages.from_id', '=', 'users.id')
-                ->orOn('ch_messages.to_id', '=', 'users.id');
+                ->orOn('ch_messages.to_channel_id', '=', 'users.id');
         })
             ->where(function ($q) {
                 $q->where('ch_messages.from_id', Auth::id())
-                    ->orWhere('ch_messages.to_id', Auth::id());
+                    ->orWhere('ch_messages.to_channel_id', Auth::id());
             })
             ->where('users.id', '!=', Auth::id())
             ->select('users.*', DB::raw('MAX(ch_messages.created_at) max_created_at'))

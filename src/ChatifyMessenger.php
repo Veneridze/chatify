@@ -147,8 +147,9 @@ class ChatifyMessenger
         } else {
             $msg = Message::where('id', $id)
                 ->join('users', 'ch_messages.from_id', 'users.id')
+                ->with('user')
                 // load user info
-                ->select('ch_messages.*', 'users.name as user_name', 'users.email as user_email', 'users.avatar as user_avatar')
+                // ->select('ch_messages.*', 'users.name as user_name', 'users.email as user_email', 'users.avatar as user_avatar')
                 ->first();
             if (!$msg) {
                 return [];
