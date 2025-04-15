@@ -68,7 +68,7 @@
             {{-- center side --}}
             <td>
                 <p>
-                    {{ strlen($channel->name) > 12 ? trim(substr($channel->name, 0, 12)) . '..' : $channel->name }}
+                    {{ $channel->name }}
                     <span class="contact-item-time" data-time="{{$lastMessage->created_at}}">{{ $lastMessage->timeAgo }}</span>
                 </p>
                 <span>
@@ -116,7 +116,7 @@
             </td>
             {{-- center side --}}
             <td>
-                <p>{{ strlen($user->name) > 12 ? trim(substr($user->name, 0, 12)) . __('chatify::chatify.name_truncated') : $user->name }}</p>
+                <p>{{ $user->name }}</p>
             </td>
         </tr>
     </table>

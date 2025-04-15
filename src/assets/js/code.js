@@ -31,20 +31,22 @@ const setCurrentChannelId = (channel_id) => $("meta[name=channel_id]").attr("con
  * Pusher initialization
  *-------------------------------------------------------------
  */
-Pusher.logToConsole = chatify.pusher.debug;
-const pusher = new Pusher(chatify.pusher.key, {
-  encrypted: chatify.pusher.options.encrypted,
-  cluster: chatify.pusher.options.cluster,
-  wsHost: chatify.pusher.options.host,
-  wsPort: chatify.pusher.options.port,
-  wssPort: chatify.pusher.options.port,
-  forceTLS: chatify.pusher.options.useTLS,
-  authEndpoint: chatify.pusherAuthEndpoint,
-  auth: {
-    headers: {
-      "X-CSRF-TOKEN": csrfToken,
-    },
-  },
+Pusher.logToConsole = true;//window.chatify.debug;
+const pusher = new Pusher(window.chatify.pusher.key, {
+  encrypted: window.chatify.pusher.options.encrypted,
+  cluster: window.chatify.pusher.options.cluster,
+  wsHost: window.chatify.pusher.options.host,
+  wsPort: window.chatify.pusher.options.port,
+  wssPort: window.chatify.pusher.options.port,
+  forceTLS: window.chatify.pusher.options.useTLS,
+  authEndpoint: null, // или пустая строка
+
+  // authEndpoint: window.chatify.pusher.pusherAuthEndpoint,
+  // auth: {
+  //   headers: {
+  //     "X-CSRF-TOKEN": csrfToken,
+  //   },
+  // },
 });
 /**
  *-------------------------------------------------------------
