@@ -11,10 +11,10 @@
                     {{-- channel avatar --}}
                     <div class="avatar av-l upload-avatar-preview chatify-d-flex" style="background-image: url('{{ Chatify::getUserWithAvatar(Auth::user())->avatar }}');"></div>
                     <p class="upload-avatar-details">@lang('chatify::chat.avatar_upload_details')</p>
-                    <label class="app-btn a-btn-primary update" style="background-color:{{$messengerColor}}">
+                    {{-- <label class="app-btn a-btn-primary update" style="background-color:{{$messengerColor}}">
                         @lang('chatify::chat.upload_avatar_label')
                         <input class="upload-avatar chatify-d-none" accept="image/*" name="avatar" type="file" />
-                    </label>
+                    </label> --}}
 
                     <div class="form-control">
                         <label class="form-label" for="group_name">@lang('chatify::chat.group_name_label')</label>
