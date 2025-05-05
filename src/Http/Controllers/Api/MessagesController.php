@@ -359,7 +359,7 @@ class MessagesController extends Controller
                 if (in_array(strtolower($file->extension()), $allowed_images)) {
                     // delete the older one
                     if (Auth::user()->avatar != config('chatify.user_avatar.default')) {
-                        $path = Chatify::getUserAvatarUrl(Auth::user()->avatar);
+                        $path = Chatify::getUserAvatarUrl(Auth::user());
                         if (Chatify::storage()->exists($path)) {
                             Chatify::storage()->delete($path);
                         }

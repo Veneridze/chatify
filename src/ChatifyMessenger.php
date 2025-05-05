@@ -6,6 +6,7 @@ use Chatify\Models\ChMessage as Message;
 use Chatify\Models\ChFavorite as Favorite;
 use Chatify\Models\ChChannel as Channel;
 use Chatify\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -350,7 +351,7 @@ class ChatifyMessenger
             $imageset = config('chatify.gravatar.imageset');
             $user->avatar = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '?s=' . $imageSize . '&d=' . $imageset;
         } else {
-            $user->avatar = self::getUserAvatarUrl($user->avatar);
+            $user->avatar = self::getUserAvatarUrl($user);
         }
         return $user;
     }
@@ -583,9 +584,9 @@ class ChatifyMessenger
      * @param string $user_avatar_name
      * @return string
      */
-    public function getUserAvatarUrl($user_avatar_name)
+    public function getUserAvatarUrl(Model $user)
     {
-        return self::storage()->url(config('chatify.user_avatar.folder') . '/' . $user_avatar_name);
+        return route('user.avatar.show', $user->id);
     }
 
     /**
